@@ -6,12 +6,11 @@ import (
 )
 
 type IServer interface {
-	Start()
-	Stop()
 	Context() context.Context
 
 	GetTCPConnection() *net.TCPConn
 	GetConnID() string
+	GetGroup() string
 	RemoteAddr() net.Addr
 
 	SendMsg(msgID uint32, data []byte) error

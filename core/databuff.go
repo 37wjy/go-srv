@@ -1,5 +1,6 @@
 package core
 
+/*
 import (
 	"bytes"
 	"encoding/binary"
@@ -74,3 +75,4 @@ func (dp *DataPack) Unpack(binaryData []byte) (ziface.IMessage, error) {
 	//这里只需要把head的数据拆包出来就可以了，然后再通过head的长度，再从conn读取一次数据
 	return msg, nil
 }
+*/

@@ -4,6 +4,7 @@
 package core
 
 import (
+	"io"
 	"log"
 	"net"
 	"reflect"
@@ -14,7 +15,7 @@ import (
 )
 
 type epoll struct {
-	fd          int 
+	fd          int
 	connections map[int]net.Conn
 	lock        *sync.RWMutex
 }
@@ -34,7 +35,7 @@ func MkEpoll() (*epoll, error) {
 func (e *epoll) Start() {
 
 	for {
-		connections, err := epoller.Wait()
+		connections, err := e.Wait()
 		if err != nil {
 			log.Printf("failed to epoll wait %v", err)
 			continue
@@ -46,7 +47,7 @@ func (e *epoll) Start() {
 
 			io.CopyN(conn, conn, 8)
 			if err != nil {
-				if err := epoller.Remove(conn); err != nil {
+				if err := e.Remove(conn); err != nil {
 					log.Printf("failed to remove %v", err)
 				}
 				conn.Close()
@@ -70,6 +71,7 @@ func (e *epoll) Add(conn net.Conn) error {
 	if len(e.connections)%100 == 0 {
 		log.Printf("total number of connections: %v", len(e.connections))
 	}
+	log.Printf("add new conn \n")
 	return nil
 }
 
@@ -85,6 +87,7 @@ func (e *epoll) Remove(conn net.Conn) error {
 	if len(e.connections)%100 == 0 {
 		log.Printf("total number of connections: %v", len(e.connections))
 	}
+	log.Printf("remove new conn \n")
 	return nil
 }
 

@@ -1,10 +1,7 @@
 package core
 
 import (
-	"bytes"
-	"encoding/binary"
 	"fmt"
-	"io"
 	"log"
 	"net"
 	_ "net/http/pprof"
@@ -14,35 +11,36 @@ import (
 	"github.com/rcrowley/go-metrics"
 )
 
-
 var (
-	c         = 1
-	opsRate   = metrics.NewRegisteredMeter("ops", nil)
+	c       = 1
+	opsRate = metrics.NewRegisteredMeter("ops", nil)
 )
 
 type Server struct {
-	Name string
-	IPVersion string
-	IP string
-	Port int
-	epolls map[uint32]epoll
+	Name        string
+	IPVersion   string
+	IP          string
+	Port        int
+	epolls      map[uint32]epoll
+	OnConnStart func(conn net.Conn)
+	OnConnStop  func(conn net.Conn)
 }
 
-func NewServer() Server  {
+func NewServer() *Server {
 	setLimit()
 	s := &Server{
-		Name: "UnicornCenter",
+		Name:      "UnicornCenter",
 		IPVersion: "tcp4",
-		IP: "0.0.0.0",
-		Port: "9999",
+		IP:        "0.0.0.0",
+		Port:      9999,
 	}
 	return s
 }
 
-func (s *Server) Start()  {
+func (s *Server) Start() {
 	fmt.Println("%s start serving at %s:%d", s.Name, s.IP, s.Port)
-	for i := 0; i < *c; i++ {
-		go core.StartEpoll()
+	for i := 0; i < c; i++ {
+		go s.startEpoll()
 	}
 	select {}
 }
@@ -58,7 +56,7 @@ func (s *Server) startEpoll() {
 		panic(err)
 	}
 
-	go epoller.start()
+	go epoller.Start()
 
 	for {
 		conn, e := ln.Accept()
@@ -80,14 +78,13 @@ func (s *Server) startEpoll() {
 	}
 }
 
-func (s *Server) SerOnConnectionAdd{
-	
+func (s *Server) SetOnConnectionAdd(hookFunc func(conn net.Conn)) {
+	s.OnConnStart = hookFunc
 }
 
-func (s *Server) SerOnConnectionLost{
-	
+func (s *Server) SetOnConnectionLost(hookFunc func(conn net.Conn)) {
+	s.OnConnStop = hookFunc
 }
-
 
 func setLimit() {
 	var rLimit syscall.Rlimit
