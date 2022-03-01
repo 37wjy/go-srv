@@ -21,7 +21,8 @@ type Server struct {
 	IPVersion   string
 	IP          string
 	Port        int
-	epolls      map[uint32]epoll
+	epolls      []epoll
+	ConnMgr     *ConnMgr
 	OnConnStart func(conn net.Conn)
 	OnConnStop  func(conn net.Conn)
 }
@@ -33,6 +34,7 @@ func NewServer() *Server {
 		IPVersion: "tcp4",
 		IP:        "0.0.0.0",
 		Port:      9999,
+		ConnMgr:   NewConnMgr(),
 	}
 	return s
 }

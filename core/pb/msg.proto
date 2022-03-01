@@ -1,0 +1,15 @@
+syntax="proto3";                
+package pb;                     
+
+message BroadCast{
+	int32 MsgID=1;
+    enum OperType{
+        DEFAULT = 0;
+        BROADCAST_GAME = 1;
+        BROADCAST_ROOM = 2;
+        BROADCAST_RANK = 3;
+    };
+    string source = 2;
+    string Target = 3;
+    bytes data = 4;
+};

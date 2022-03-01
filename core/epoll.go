@@ -44,6 +44,7 @@ func (e *epoll) Start() {
 			if conn == nil {
 				break
 			}
+			msg := make([]byte, 4096)
 
 			io.CopyN(conn, conn, 8)
 			if err != nil {
