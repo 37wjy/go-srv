@@ -21,7 +21,7 @@ type Server struct {
 	IPVersion   string
 	IP          string
 	Port        int
-	epolls      []epoll
+	epolls      []Epoll
 	ConnMgr     *ConnMgr
 	OnConnStart func(conn net.Conn)
 	OnConnStop  func(conn net.Conn)

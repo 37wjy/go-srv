@@ -10,7 +10,7 @@ type ConnMgr struct {
 	Games map[string]inet.IConn
 	Room  map[string]inet.IConn
 	Rank  map[string]inet.IConn
-	GM    map[string]inet.IConn
+	Other map[string]inet.IConn
 }
 
 func NewConnMgr() *ConnMgr {
@@ -18,7 +18,7 @@ func NewConnMgr() *ConnMgr {
 		Games: make(map[string]inet.IConn),
 		Room:  make(map[string]inet.IConn),
 		Rank:  make(map[string]inet.IConn),
-		GM:    make(map[string]inet.IConn),
+		Other: make(map[string]inet.IConn),
 	}
 }
 
@@ -31,7 +31,7 @@ func (s *ConnMgr) Add(conn inet.IConn) {
 	case "rank":
 		break
 	default:
-		break
+		s.Other[conn.GetConnID()] = conn
 	}
 }
 

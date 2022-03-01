@@ -14,37 +14,36 @@ import (
 	"golang.org/x/sys/unix"
 )
 
-type epoll struct {
+type Epoll struct {
 	fd          int
 	connections map[int]net.Conn
 	lock        *sync.RWMutex
 }
 
-func MkEpoll() (*epoll, error) {
+func MkEpoll() (*Epoll, error) {
 	fd, err := unix.EpollCreate1(0)
 	if err != nil {
 		return nil, err
 	}
-	return &epoll{
+	return &Epoll{
 		fd:          fd,
 		lock:        &sync.RWMutex{},
 		connections: make(map[int]net.Conn),
 	}, nil
 }
 
-func (e *epoll) Start() {
+func (e *Epoll) Start() {
 
 	for {
 		connections, err := e.Wait()
 		if err != nil {
-			log.Printf("failed to epoll wait %v", err)
+			log.Printf("failed to Epoll wait %v", err)
 			continue
 		}
 		for _, conn := range connections {
 			if conn == nil {
 				break
 			}
-			msg := make([]byte, 4096)
 
 			io.CopyN(conn, conn, 8)
 			if err != nil {
@@ -54,12 +53,11 @@ func (e *epoll) Start() {
 				conn.Close()
 			}
 
-			opsRate.Mark(1)
 		}
 	}
 }
 
-func (e *epoll) Add(conn net.Conn) error {
+func (e *Epoll) Add(conn net.Conn) error {
 	// Extract file descriptor associated with the connection
 	fd := socketFD(conn)
 	err := unix.EpollCtl(e.fd, syscall.EPOLL_CTL_ADD, fd, &unix.EpollEvent{Events: unix.POLLIN | unix.POLLHUP, Fd: int32(fd)})
@@ -69,14 +67,11 @@ func (e *epoll) Add(conn net.Conn) error {
 	e.lock.Lock()
 	defer e.lock.Unlock()
 	e.connections[fd] = conn
-	if len(e.connections)%100 == 0 {
-		log.Printf("total number of connections: %v", len(e.connections))
-	}
 	log.Printf("add new conn \n")
 	return nil
 }
 
-func (e *epoll) Remove(conn net.Conn) error {
+func (e *Epoll) Remove(conn net.Conn) error {
 	fd := socketFD(conn)
 	err := unix.EpollCtl(e.fd, syscall.EPOLL_CTL_DEL, fd, nil)
 	if err != nil {
@@ -92,7 +87,7 @@ func (e *epoll) Remove(conn net.Conn) error {
 	return nil
 }
 
-func (e *epoll) Wait() ([]net.Conn, error) {
+func (e *Epoll) Wait() ([]net.Conn, error) {
 	events := make([]unix.EpollEvent, 100)
 retry:
 	n, err := unix.EpollWait(e.fd, events, 100)
@@ -113,13 +108,7 @@ retry:
 }
 
 func socketFD(conn net.Conn) int {
-	//tls := reflect.TypeOf(conn.UnderlyingConn()) == reflect.TypeOf(&tls.Conn{})
-	// Extract the file descriptor associated with the connection
-	//connVal := reflect.Indirect(reflect.ValueOf(conn)).FieldByName("conn").Elem()
 	tcpConn := reflect.Indirect(reflect.ValueOf(conn)).FieldByName("conn")
-	//if tls {
-	//	tcpConn = reflect.Indirect(tcpConn.Elem())
-	//}
 	fdVal := tcpConn.FieldByName("fd")
 	pfdVal := reflect.Indirect(fdVal).FieldByName("pfd")
 
