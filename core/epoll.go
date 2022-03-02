@@ -4,10 +4,7 @@
 package core
 
 import (
-	"io"
 	"log"
-	"net"
-	"reflect"
 	"sync"
 	"syscall"
 
@@ -16,7 +13,7 @@ import (
 
 type Epoll struct {
 	fd          int
-	connections map[int]net.Conn
+	connections map[int]*Connection
 	lock        *sync.RWMutex
 }
 
@@ -28,12 +25,12 @@ func MkEpoll() (*Epoll, error) {
 	return &Epoll{
 		fd:          fd,
 		lock:        &sync.RWMutex{},
-		connections: make(map[int]net.Conn),
+		connections: make(map[int]*Connection),
 	}, nil
 }
 
-func (e *Epoll) Start() {
-
+func (e *Epoll) StartReader() {
+	//读取epoll conn消息并处理
 	for {
 		connections, err := e.Wait()
 		if err != nil {
@@ -41,25 +38,33 @@ func (e *Epoll) Start() {
 			continue
 		}
 		for _, conn := range connections {
-			if conn == nil {
-				break
+			if conn.Conn == nil {
+				conn.Stop()
 			}
 
-			io.CopyN(conn, conn, 8)
+			msg, err := conn.Read()
 			if err != nil {
 				if err := e.Remove(conn); err != nil {
 					log.Printf("failed to remove %v", err)
 				}
-				conn.Close()
+				conn.Stop()
+			}
+			req := Request{
+				conn: *conn,
+				msg:  *msg,
+			}
+			if msg != nil {
+				conn.TCPServer.
 			}
 
+			//handle msg
 		}
 	}
 }
 
-func (e *Epoll) Add(conn net.Conn) error {
+func (e *Epoll) Add(conn *Connection) error {
 	// Extract file descriptor associated with the connection
-	fd := socketFD(conn)
+	fd := conn.GetConnFD()
 	err := unix.EpollCtl(e.fd, syscall.EPOLL_CTL_ADD, fd, &unix.EpollEvent{Events: unix.POLLIN | unix.POLLHUP, Fd: int32(fd)})
 	if err != nil {
 		return err
@@ -71,8 +76,8 @@ func (e *Epoll) Add(conn net.Conn) error {
 	return nil
 }
 
-func (e *Epoll) Remove(conn net.Conn) error {
-	fd := socketFD(conn)
+func (e *Epoll) Remove(conn *Connection) error {
+	fd := conn.GetConnFD()
 	err := unix.EpollCtl(e.fd, syscall.EPOLL_CTL_DEL, fd, nil)
 	if err != nil {
 		return err
@@ -87,7 +92,7 @@ func (e *Epoll) Remove(conn net.Conn) error {
 	return nil
 }
 
-func (e *Epoll) Wait() ([]net.Conn, error) {
+func (e *Epoll) Wait() ([]*Connection, error) {
 	events := make([]unix.EpollEvent, 100)
 retry:
 	n, err := unix.EpollWait(e.fd, events, 100)
@@ -99,18 +104,10 @@ retry:
 	}
 	e.lock.RLock()
 	defer e.lock.RUnlock()
-	var connections []net.Conn
+	var connections []*Connection
 	for i := 0; i < n; i++ {
 		conn := e.connections[int(events[i].Fd)]
 		connections = append(connections, conn)
 	}
 	return connections, nil
-}
-
-func socketFD(conn net.Conn) int {
-	tcpConn := reflect.Indirect(reflect.ValueOf(conn)).FieldByName("conn")
-	fdVal := tcpConn.FieldByName("fd")
-	pfdVal := reflect.Indirect(fdVal).FieldByName("pfd")
-
-	return int(pfdVal.FieldByName("Sysfd").Int())
 }

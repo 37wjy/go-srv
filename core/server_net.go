@@ -58,7 +58,7 @@ func (s *Server) startEpoll() {
 		panic(err)
 	}
 
-	go epoller.Start()
+	go epoller.StartReader()
 
 	for {
 		conn, e := ln.Accept()
@@ -73,7 +73,9 @@ func (s *Server) startEpoll() {
 			return
 		}
 
-		if err := epoller.Add(conn); err != nil {
+		connection := NewConnection(s, epoller, conn)
+
+		if err := epoller.Add(connection); err != nil {
 			log.Printf("failed to add connection %v", err)
 			conn.Close()
 		}
