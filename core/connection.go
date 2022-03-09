@@ -1,6 +1,7 @@
 package core
 
 import (
+	"UnicornServer/core/logger"
 	"context"
 	"errors"
 	"fmt"
@@ -38,8 +39,8 @@ func NewConnection(server *Server, conn net.Conn) *Connection {
 }
 
 func (c *Connection) StartReader() {
-	fmt.Println("[Reader Goroutine is running]")
-	defer fmt.Println(c.RemoteAddr().String(), "[conn Reader exit!]")
+	logger.INFO("[Reader Goroutine is running]")
+	defer logger.INFO(c.RemoteAddr().String() + "[conn Reader exit!]")
 	defer c.Stop()
 
 	// 创建拆包解包的对象

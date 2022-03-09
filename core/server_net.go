@@ -1,6 +1,7 @@
 package core
 
 import (
+	"UnicornServer/core/logger"
 	"fmt"
 	"net"
 	_ "net/http/pprof"
@@ -38,7 +39,7 @@ func NewServer() *Server {
 }
 
 func (s *Server) Start() {
-	fmt.Printf("%s start serving at %s:%d \n", s.Name, s.IP, s.Port)
+	logger.INFO("%s start serving at %s:%d \n", s.Name, s.IP, s.Port)
 	go func() {
 
 		addr, err := net.ResolveTCPAddr(s.IPVersion, fmt.Sprintf("%s:%d", s.IP, s.Port))
