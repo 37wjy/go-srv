@@ -54,7 +54,7 @@ func (e *Epoll) StartReader() {
 				msg:  *msg,
 			}
 			if msg != nil {
-				conn.TCPServer.
+				// do handle
 			}
 
 			//handle msg

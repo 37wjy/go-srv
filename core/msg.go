@@ -35,6 +35,10 @@ func (msg *Message) SetMsgID(msgID uint32) {
 	msg.ID = msgID
 }
 
+func (msg *Message) GetMsgID() uint32 {
+	return msg.ID
+}
+
 //SetData 设计消息内容
 func (msg *Message) SetData(data []byte) {
 	msg.Data = data

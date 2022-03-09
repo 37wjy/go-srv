@@ -1,8 +1,8 @@
 syntax="proto3";                
 package pb;                     
+option go_package = '.';
 
 message BroadCast{
-	int32 MsgID=1;
     enum OperType{
         DEFAULT = 0;
         BROADCAST_GAME = 1;
@@ -13,3 +13,17 @@ message BroadCast{
     string Target = 3;
     bytes data = 4;
 };
+
+
+message HandShake{
+    string s_host=1;
+    string s_name=2;
+    string curr_branch = 3;
+    optional int32 s_group=4;
+}
+
+message Echo{
+    string s_host=1;
+    string s_name=2;
+    optional int32 online=3;
+}
