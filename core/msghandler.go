@@ -18,6 +18,7 @@ func NewMsgHandle() *MsgHandle {
 func (mh *MsgHandle) DoMsgHandler(req *Request) {
 
 	preprocess(req)
+	req.conn.SendMsg(123, req.msg.Data)
 	switch req.GetMsgID() {
 	case 10001:
 		return

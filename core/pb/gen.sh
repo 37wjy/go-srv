@@ -1,4 +1,2 @@
-/Users/wjy/go/bin/protoc-gen-go
-/root/go/bin/protoc-gen-go
-
-protoc -I=/root/go/bin/protoc-gen-go --go_out=. *.proto
+protoc --go_out=. *.proto
+protoc --python_out=. *.proto

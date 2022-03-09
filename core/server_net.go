@@ -39,9 +39,38 @@ func NewServer() *Server {
 
 func (s *Server) Start() {
 	fmt.Println("%s start serving at %s:%d", s.Name, s.IP, s.Port)
-	for i := 0; i < c; i++ {
+	go func() {
 
-	}
+		addr, err := net.ResolveTCPAddr(s.IPVersion, fmt.Sprintf("%s:%d", s.IP, s.Port))
+		if err != nil {
+			fmt.Println("resolve tcp addr err: ", err)
+			return
+		}
+
+		listener, err := net.ListenTCP(s.IPVersion, addr)
+		if err != nil {
+			panic(err)
+		}
+
+		//TODO server.go 应该有一个自动生成ID的方法
+
+		//3 启动server网络连接业务
+		for {
+			//3.1 阻塞等待客户端建立连接请求
+			conn, err := listener.AcceptTCP()
+			if err != nil {
+				fmt.Println("Accept err ", err)
+				continue
+			}
+			fmt.Println("Get conn remote addr = ", conn.RemoteAddr().String())
+
+			//3.3 处理该新连接请求的 业务 方法， 此时应该有 handler 和 conn是绑定的
+			dealConn := NewConnection(s, conn)
+
+			//3.4 启动当前链接的处理业务
+			go dealConn.Start()
+		}
+	}()
 	select {}
 }
 

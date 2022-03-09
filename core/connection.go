@@ -2,6 +2,7 @@ package core
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"net"
@@ -55,7 +56,7 @@ func (c *Connection) StartReader() {
 				return
 			}
 
-			msg, err := Unpack(headData)
+			msg, err := UnpackHead(headData)
 			if err != nil {
 				fmt.Println("unpack error ", err)
 				return
@@ -102,8 +103,9 @@ func (c *Connection) StartWriter() {
 }
 
 func (c *Connection) Start() {
-	c.StartWriter()
-	c.StartReader()
+	c.ctx, c.cancel = context.WithCancel(context.Background())
+	go c.StartWriter()
+	go c.StartReader()
 
 	select {
 	case <-c.ctx.Done():
@@ -134,4 +136,24 @@ func (c *Connection) GetGroup() uint32 {
 
 func (c *Connection) GetType() string {
 	return c.ConnType
+}
+
+func (c *Connection) SendMsg(msgID uint32, data []byte) error {
+	c.RLock()
+	defer c.RUnlock()
+	if c.isClosed == true {
+		return errors.New("connection closed when send msg")
+	}
+
+	//将data封包，并且发送
+	msg, err := Pack(NewMsgPackage(msgID, data))
+	if err != nil {
+		fmt.Println("Pack error msg ID = ", msgID)
+		return errors.New("Pack error msg ")
+	}
+
+	//写回客户端
+	c.msgChan <- msg
+
+	return nil
 }
