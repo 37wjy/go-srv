@@ -39,7 +39,8 @@ func NewServer() *Server {
 }
 
 func (s *Server) Start() {
-	logger.INFO("%s start serving at %s:%d \n", s.Name, s.IP, s.Port)
+	logger.INFO_f("%s start serving at %s:%d \n", s.Name, s.IP, s.Port)
+
 	go func() {
 
 		addr, err := net.ResolveTCPAddr(s.IPVersion, fmt.Sprintf("%s:%d", s.IP, s.Port))

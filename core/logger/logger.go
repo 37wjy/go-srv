@@ -20,6 +20,10 @@ func INFO(msg interface{}) {
 	info.Println(msg)
 }
 
+func INFO_f(msg string, v ...interface{}) { //有想法改个名字
+	info.Printf(msg, v...)
+}
+
 func DEBUG(msg interface{}) {
 	debug.Println(msg)
 }
