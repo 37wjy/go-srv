@@ -14,11 +14,15 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tmsg.proto\x12\x02pb\"\x8e\x01\n\tBroadCast\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\x0e\n\x06Target\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x04 \x01(\x0c\"S\n\x08OperType\x12\x0b\n\x07\x44\x45\x46\x41ULT\x10\x00\x12\x12\n\x0e\x42ROADCAST_GAME\x10\x01\x12\x12\n\x0e\x42ROADCAST_ROOM\x10\x02\x12\x12\n\x0e\x42ROADCAST_RANK\x10\x03\x42\x03Z\x01.b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tmsg.proto\x12\x02pb\"\xca\x01\n\tBroadCast\x12-\n\x08opertype\x18\x01 \x01(\x0e\x32\x16.pb.BroadCast.OperTypeH\x00\x88\x01\x01\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\x0e\n\x06Target\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x04 \x01(\x0c\"S\n\x08OperType\x12\x0b\n\x07\x44\x45\x46\x41ULT\x10\x00\x12\x12\n\x0e\x42ROADCAST_GAME\x10\x01\x12\x12\n\x0e\x42ROADCAST_ROOM\x10\x02\x12\x12\n\x0e\x42ROADCAST_RANK\x10\x03\x42\x0b\n\t_opertype\"Q\n\tHandShake\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x13\n\x0b\x63urr_branch\x18\x03 \x01(\t\x12\x0f\n\x07s_group\x18\x04 \x01(\x05\"8\n\x04\x45\x63ho\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x10\n\x08s_online\x18\x03 \x01(\x05\"\xba\x01\n\nServerList\x12&\n\x07servers\x18\x01 \x03(\x0b\x32\x15.pb.ServerList.Server\x1a\x83\x01\n\x06Server\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x13\n\x0b\x63urr_branch\x18\x03 \x01(\t\x12\x15\n\x08s_online\x18\x04 \x01(\x05H\x00\x88\x01\x01\x12\x14\n\x07s_group\x18\x05 \x01(\x05H\x01\x88\x01\x01\x42\x0b\n\t_s_onlineB\n\n\x08_s_groupB\x03Z\x01.b\x06proto3')
 
 
 
 _BROADCAST = DESCRIPTOR.message_types_by_name['BroadCast']
+_HANDSHAKE = DESCRIPTOR.message_types_by_name['HandShake']
+_ECHO = DESCRIPTOR.message_types_by_name['Echo']
+_SERVERLIST = DESCRIPTOR.message_types_by_name['ServerList']
+_SERVERLIST_SERVER = _SERVERLIST.nested_types_by_name['Server']
 _BROADCAST_OPERTYPE = _BROADCAST.enum_types_by_name['OperType']
 BroadCast = _reflection.GeneratedProtocolMessageType('BroadCast', (_message.Message,), {
   'DESCRIPTOR' : _BROADCAST,
@@ -27,12 +31,49 @@ BroadCast = _reflection.GeneratedProtocolMessageType('BroadCast', (_message.Mess
   })
 _sym_db.RegisterMessage(BroadCast)
 
+HandShake = _reflection.GeneratedProtocolMessageType('HandShake', (_message.Message,), {
+  'DESCRIPTOR' : _HANDSHAKE,
+  '__module__' : 'msg_pb2'
+  # @@protoc_insertion_point(class_scope:pb.HandShake)
+  })
+_sym_db.RegisterMessage(HandShake)
+
+Echo = _reflection.GeneratedProtocolMessageType('Echo', (_message.Message,), {
+  'DESCRIPTOR' : _ECHO,
+  '__module__' : 'msg_pb2'
+  # @@protoc_insertion_point(class_scope:pb.Echo)
+  })
+_sym_db.RegisterMessage(Echo)
+
+ServerList = _reflection.GeneratedProtocolMessageType('ServerList', (_message.Message,), {
+
+  'Server' : _reflection.GeneratedProtocolMessageType('Server', (_message.Message,), {
+    'DESCRIPTOR' : _SERVERLIST_SERVER,
+    '__module__' : 'msg_pb2'
+    # @@protoc_insertion_point(class_scope:pb.ServerList.Server)
+    })
+  ,
+  'DESCRIPTOR' : _SERVERLIST,
+  '__module__' : 'msg_pb2'
+  # @@protoc_insertion_point(class_scope:pb.ServerList)
+  })
+_sym_db.RegisterMessage(ServerList)
+_sym_db.RegisterMessage(ServerList.Server)
+
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'Z\001.'
   _BROADCAST._serialized_start=18
-  _BROADCAST._serialized_end=160
-  _BROADCAST_OPERTYPE._serialized_start=77
-  _BROADCAST_OPERTYPE._serialized_end=160
+  _BROADCAST._serialized_end=220
+  _BROADCAST_OPERTYPE._serialized_start=124
+  _BROADCAST_OPERTYPE._serialized_end=207
+  _HANDSHAKE._serialized_start=222
+  _HANDSHAKE._serialized_end=303
+  _ECHO._serialized_start=305
+  _ECHO._serialized_end=361
+  _SERVERLIST._serialized_start=364
+  _SERVERLIST._serialized_end=550
+  _SERVERLIST_SERVER._serialized_start=419
+  _SERVERLIST_SERVER._serialized_end=550
 # @@protoc_insertion_point(module_scope)

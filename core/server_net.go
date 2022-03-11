@@ -53,10 +53,10 @@ func (s *Server) Start() {
 		for {
 			conn, err := listener.AcceptTCP()
 			if err != nil {
-				logger.Fatal("Accept err ", err)
+				logger.Fatal("Accept connection err ", err)
 				continue
 			}
-			logger.Fatal("Get conn remote addr = ", conn.RemoteAddr().String())
+			logger.Info("Accept connection remote addr = ", conn.RemoteAddr().String())
 
 			dealConn := NewConnection(s, conn)
 

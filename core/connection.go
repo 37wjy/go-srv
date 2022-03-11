@@ -4,7 +4,6 @@ import (
 	"UnicornServer/core/logger"
 	"context"
 	"errors"
-	"fmt"
 	"io"
 	"net"
 	"sync"
@@ -53,13 +52,13 @@ func (c *Connection) StartReader() {
 			//读取客户端的Msg head
 			headData := make([]byte, getHeaderLen())
 			if _, err := io.ReadFull(c.Conn, headData); err != nil {
-				fmt.Println("read msg head error ", err)
+				logger.Fatal("read msg head error ", err)
 				return
 			}
 
 			msg, err := UnpackHead(headData)
 			if err != nil {
-				fmt.Println("unpack error ", err)
+				logger.Fatal("unpack error ", err)
 				return
 			}
 
@@ -68,7 +67,7 @@ func (c *Connection) StartReader() {
 			if msg.GetDataLen() > 0 {
 				data = make([]byte, msg.GetDataLen())
 				if _, err := io.ReadFull(c.Conn, data); err != nil {
-					fmt.Println("read msg data error ", err)
+					logger.Fatal("read msg data error ", err)
 					return
 				}
 			}
@@ -87,14 +86,14 @@ func (c *Connection) StartReader() {
 }
 
 func (c *Connection) StartWriter() {
-	fmt.Println("[Writer Goroutine is running]")
-	defer fmt.Println(c.RemoteAddr().String(), "[conn Writer exit!]")
+	logger.Fatal("[Writer Goroutine is running]")
+	defer logger.Fatal(c.RemoteAddr().String(), "[conn Writer exit!]")
 
 	for {
 		select {
 		case data := <-c.msgChan:
 			if _, err := c.Conn.Write(data); err != nil {
-				fmt.Println("Send Data error:, ", err, " Conn Writer exit")
+				logger.Fatal("Send Data error:, ", err, " Conn Writer exit")
 				return
 			}
 		case <-c.ctx.Done():
@@ -116,6 +115,7 @@ func (c *Connection) Start() {
 }
 
 func (c *Connection) Stop() {
+	logger.Info("Connection lost")
 	c.cancel()
 }
 
@@ -149,7 +149,7 @@ func (c *Connection) SendMsg(msgID uint32, data []byte) error {
 	//将data封包，并且发送
 	msg, err := Pack(NewMsgPackage(msgID, data))
 	if err != nil {
-		fmt.Println("Pack error msg ID = ", msgID)
+		logger.Fatal("Pack error msg ID = ", msgID)
 		return errors.New("Pack error msg ")
 	}
 
