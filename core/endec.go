@@ -3,7 +3,6 @@ package core
 import (
 	"bytes"
 	"encoding/binary"
-	"fmt"
 )
 
 var (
@@ -14,11 +13,11 @@ func getHeaderLen() uint16 {
 	return HeadLen
 }
 
+// 只解码head (len, msgid)
 func UnpackHead(binaryData []byte) (*Message, error) {
 	dataBuff := bytes.NewReader(binaryData)
 
 	msg := &Message{}
-	fmt.Println("unpack :", binaryData)
 
 	if err := binary.Read(dataBuff, binary.BigEndian, &msg.DataLen); err != nil {
 		return nil, err
@@ -31,6 +30,7 @@ func UnpackHead(binaryData []byte) (*Message, error) {
 	return msg, nil
 }
 
+// 封装 (len,msgid,data)
 func Pack(msg *Message) ([]byte, error) {
 	dataBuff := bytes.NewBuffer([]byte{})
 

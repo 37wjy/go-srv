@@ -5,13 +5,6 @@ import (
 	"fmt"
 	"net"
 	_ "net/http/pprof"
-
-	"github.com/rcrowley/go-metrics"
-)
-
-var (
-	c       = 1
-	opsRate = metrics.NewRegisteredMeter("ops", nil)
 )
 
 type Server struct {
@@ -39,13 +32,13 @@ func NewServer() *Server {
 }
 
 func (s *Server) Start() {
-	logger.INFO_f("%s start serving at %s:%d \n", s.Name, s.IP, s.Port)
+	logger.Infof("%s start serving at %s:%d \n", s.Name, s.IP, s.Port)
 
 	go func() {
 
 		addr, err := net.ResolveTCPAddr(s.IPVersion, fmt.Sprintf("%s:%d", s.IP, s.Port))
 		if err != nil {
-			fmt.Println("resolve tcp addr err: ", err)
+			logger.Fatal("resolve tcp addr err: ", err)
 			return
 		}
 
@@ -58,18 +51,15 @@ func (s *Server) Start() {
 
 		//3 启动server网络连接业务
 		for {
-			//3.1 阻塞等待客户端建立连接请求
 			conn, err := listener.AcceptTCP()
 			if err != nil {
-				fmt.Println("Accept err ", err)
+				logger.Fatal("Accept err ", err)
 				continue
 			}
-			fmt.Println("Get conn remote addr = ", conn.RemoteAddr().String())
+			logger.Fatal("Get conn remote addr = ", conn.RemoteAddr().String())
 
-			//3.3 处理该新连接请求的 业务 方法， 此时应该有 handler 和 conn是绑定的
 			dealConn := NewConnection(s, conn)
 
-			//3.4 启动当前链接的处理业务
 			go dealConn.Start()
 		}
 	}()

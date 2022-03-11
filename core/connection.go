@@ -39,8 +39,8 @@ func NewConnection(server *Server, conn net.Conn) *Connection {
 }
 
 func (c *Connection) StartReader() {
-	logger.INFO("[Reader Goroutine is running]")
-	defer logger.INFO(c.RemoteAddr().String() + "[conn Reader exit!]")
+	logger.Info("[Reader Goroutine is running]")
+	defer logger.Info(c.RemoteAddr().String() + "[conn Reader exit!]")
 	defer c.Stop()
 
 	// 创建拆包解包的对象
