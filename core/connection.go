@@ -12,7 +12,8 @@ import (
 type Connection struct {
 	TCPServer  *Server
 	Conn       net.Conn
-	ConnGroup  uint32
+	ConnHost   string
+	ConnGroup  int32
 	ConnType   string
 	ConnBranch string
 
@@ -28,7 +29,6 @@ func NewConnection(server *Server, conn net.Conn) *Connection {
 	c := &Connection{
 		TCPServer: server,
 		Conn:      conn,
-		ConnType:  "game",
 
 		msgChan:  make(chan []byte),
 		isClosed: false,
@@ -38,8 +38,8 @@ func NewConnection(server *Server, conn net.Conn) *Connection {
 }
 
 func (c *Connection) StartReader() {
-	logger.Info("[Reader Goroutine is running]")
-	defer logger.Info(c.RemoteAddr().String() + "[conn Reader exit!]")
+	logger.Debug("[Reader Goroutine is running]")
+	defer logger.Debug(c.RemoteAddr().String() + "[conn Reader exit!]")
 	defer c.Stop()
 
 	// 创建拆包解包的对象
@@ -86,8 +86,8 @@ func (c *Connection) StartReader() {
 }
 
 func (c *Connection) StartWriter() {
-	logger.Fatal("[Writer Goroutine is running]")
-	defer logger.Fatal(c.RemoteAddr().String(), "[conn Writer exit!]")
+	logger.Debug("[Writer Goroutine is running]")
+	defer logger.Debug(c.RemoteAddr().String(), "[conn Writer exit!]")
 
 	for {
 		select {
@@ -115,12 +115,13 @@ func (c *Connection) Start() {
 }
 
 func (c *Connection) Stop() {
-	logger.Info("Connection lost")
+	logger.Infof("Connection %s close", c.GetHost())
 	c.cancel()
 }
 
 func (c *Connection) Finalizer() {
 	c.Lock()
+	c.TCPServer.ConnMgr.Remove(c)
 	defer c.Unlock()
 	_ = c.Conn.Close()
 
@@ -131,8 +132,12 @@ func (c *Connection) RemoteAddr() net.Addr {
 	return c.Conn.RemoteAddr()
 }
 
-func (c *Connection) GetGroup() uint32 {
+func (c *Connection) GetGroup() int32 {
 	return c.ConnGroup
+}
+
+func (c *Connection) GetHost() string {
+	return c.ConnHost
 }
 
 func (c *Connection) GetType() string {

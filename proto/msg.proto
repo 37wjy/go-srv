@@ -1,6 +1,6 @@
 syntax="proto3";                
 package pb;              
-option go_package = '.';       
+option go_package = 'UnicornServer/core/pb';       
 
 // 字段规则：optional -> 字段可出现 0 次或1次
 // 字段规则：repeated -> 字段可出现任意多次（包括 0）
@@ -14,24 +14,24 @@ message BroadCast{
         BROADCAST_RANK = 3;
     };
     optional OperType opertype = 1;
-    string source = 2;
+    optional string source = 2;
     string Target = 3;
     bytes data = 4;
 };
 
 
 message HandShake{  
-     string s_host = 1;
-     string s_name = 2;
-     string curr_branch = 3;
-     int32 s_group = 4;
+    string s_host = 1;
+    string s_name = 2;
+    string curr_branch = 3;
+    int32 s_group = 4;
 } 
 
 
 message Echo{
-     string s_host = 1;
-     string s_name = 2;
-     int32 s_online = 3;
+    string s_host = 1;
+    string s_name = 2;
+    int32 s_online = 3;
 }
 
 message ServerList{
@@ -39,8 +39,8 @@ message ServerList{
         string s_host = 1;
         string s_name = 2;
         string curr_branch = 3;
-       optional int32 s_online = 4 ;
-       optional int32 s_group = 5;
+        optional int32 s_online = 4 ;
+        optional int32 s_group = 5;
    }
     repeated Server servers = 1;
 }

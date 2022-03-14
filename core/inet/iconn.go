@@ -9,6 +9,7 @@ type IConn interface {
 	Context() context.Context
 
 	GetConnID() string
+	GetHost() string
 	GetGroup() int
 	GetType() string
 	RemoteAddr() net.Addr

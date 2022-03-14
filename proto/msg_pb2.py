@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tmsg.proto\x12\x02pb\"\xca\x01\n\tBroadCast\x12-\n\x08opertype\x18\x01 \x01(\x0e\x32\x16.pb.BroadCast.OperTypeH\x00\x88\x01\x01\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\x0e\n\x06Target\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x04 \x01(\x0c\"S\n\x08OperType\x12\x0b\n\x07\x44\x45\x46\x41ULT\x10\x00\x12\x12\n\x0e\x42ROADCAST_GAME\x10\x01\x12\x12\n\x0e\x42ROADCAST_ROOM\x10\x02\x12\x12\n\x0e\x42ROADCAST_RANK\x10\x03\x42\x0b\n\t_opertype\"Q\n\tHandShake\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x13\n\x0b\x63urr_branch\x18\x03 \x01(\t\x12\x0f\n\x07s_group\x18\x04 \x01(\x05\"8\n\x04\x45\x63ho\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x10\n\x08s_online\x18\x03 \x01(\x05\"\xba\x01\n\nServerList\x12&\n\x07servers\x18\x01 \x03(\x0b\x32\x15.pb.ServerList.Server\x1a\x83\x01\n\x06Server\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x13\n\x0b\x63urr_branch\x18\x03 \x01(\t\x12\x15\n\x08s_online\x18\x04 \x01(\x05H\x00\x88\x01\x01\x12\x14\n\x07s_group\x18\x05 \x01(\x05H\x01\x88\x01\x01\x42\x0b\n\t_s_onlineB\n\n\x08_s_groupB\x03Z\x01.b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tmsg.proto\x12\x02pb\"\xda\x01\n\tBroadCast\x12-\n\x08opertype\x18\x01 \x01(\x0e\x32\x16.pb.BroadCast.OperTypeH\x00\x88\x01\x01\x12\x13\n\x06source\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x0e\n\x06Target\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x04 \x01(\x0c\"S\n\x08OperType\x12\x0b\n\x07\x44\x45\x46\x41ULT\x10\x00\x12\x12\n\x0e\x42ROADCAST_GAME\x10\x01\x12\x12\n\x0e\x42ROADCAST_ROOM\x10\x02\x12\x12\n\x0e\x42ROADCAST_RANK\x10\x03\x42\x0b\n\t_opertypeB\t\n\x07_source\"Q\n\tHandShake\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x13\n\x0b\x63urr_branch\x18\x03 \x01(\t\x12\x0f\n\x07s_group\x18\x04 \x01(\x05\"8\n\x04\x45\x63ho\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x10\n\x08s_online\x18\x03 \x01(\x05\"\xba\x01\n\nServerList\x12&\n\x07servers\x18\x01 \x03(\x0b\x32\x15.pb.ServerList.Server\x1a\x83\x01\n\x06Server\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x13\n\x0b\x63urr_branch\x18\x03 \x01(\t\x12\x15\n\x08s_online\x18\x04 \x01(\x05H\x00\x88\x01\x01\x12\x14\n\x07s_group\x18\x05 \x01(\x05H\x01\x88\x01\x01\x42\x0b\n\t_s_onlineB\n\n\x08_s_groupB\x17Z\x15UnicornServer/core/pbb\x06proto3')
 
 
 
@@ -63,17 +63,17 @@ _sym_db.RegisterMessage(ServerList.Server)
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  DESCRIPTOR._serialized_options = b'Z\001.'
+  DESCRIPTOR._serialized_options = b'Z\025UnicornServer/core/pb'
   _BROADCAST._serialized_start=18
-  _BROADCAST._serialized_end=220
-  _BROADCAST_OPERTYPE._serialized_start=124
-  _BROADCAST_OPERTYPE._serialized_end=207
-  _HANDSHAKE._serialized_start=222
-  _HANDSHAKE._serialized_end=303
-  _ECHO._serialized_start=305
-  _ECHO._serialized_end=361
-  _SERVERLIST._serialized_start=364
-  _SERVERLIST._serialized_end=550
-  _SERVERLIST_SERVER._serialized_start=419
-  _SERVERLIST_SERVER._serialized_end=550
+  _BROADCAST._serialized_end=236
+  _BROADCAST_OPERTYPE._serialized_start=129
+  _BROADCAST_OPERTYPE._serialized_end=212
+  _HANDSHAKE._serialized_start=238
+  _HANDSHAKE._serialized_end=319
+  _ECHO._serialized_start=321
+  _ECHO._serialized_end=377
+  _SERVERLIST._serialized_start=380
+  _SERVERLIST._serialized_end=566
+  _SERVERLIST_SERVER._serialized_start=435
+  _SERVERLIST_SERVER._serialized_end=566
 # @@protoc_insertion_point(module_scope)
