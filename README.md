@@ -14,3 +14,10 @@ TODO Logger
     file writter
 
 TODO config.json
+
+TODO 重构与中心服有交互的逻辑
+
+    handshake
+    echo
+    error
+    server list
