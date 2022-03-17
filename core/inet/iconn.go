@@ -11,8 +11,8 @@ type IConn interface {
 	GetConnID() string
 	GetHost() string
 	GetGroup() int
-	GetType() string
+	GetName() string
 	RemoteAddr() net.Addr
 
-	SendMsg(msgID uint32, data []byte) error
+	SendMsg(msgID int32, data []byte) error
 }

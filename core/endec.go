@@ -38,6 +38,10 @@ func Pack(msg *Message) ([]byte, error) {
 		return nil, err
 	}
 
+	if err := binary.Write(dataBuff, binary.BigEndian, msg.GetMsgID()); err != nil {
+		return nil, err
+	}
+
 	if err := binary.Write(dataBuff, binary.BigEndian, msg.GetData()); err != nil {
 		return nil, err
 	}

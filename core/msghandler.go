@@ -54,30 +54,60 @@ func process_handshake(req *Request) {
 	}
 
 	conn := req.conn
-	conn.ConnType = msg.SName
+	conn.ConnName = msg.SName
 	conn.ConnHost = msg.SHost
 	conn.ConnGroup = msg.SGroup
 	conn.ConnBranch = msg.CurrBranch
 	logger.Infof("receive connection from %s, %s, group: %d", msg.SName, msg.SHost, msg.SGroup)
 	req.conn.TCPServer.ConnMgr.Add(conn)
+
+	switch msg.SName {
+	case "game":
+		ret_sp, _ := proto.Marshal(&pb.SpecialServerList{
+			RoomServerList: conn.TCPServer.ConnMgr.GetRoomServer(),
+			RankServerList: conn.TCPServer.ConnMgr.GetRankServer(),
+		})
+		conn.SendMsg(MsgID.SPECIAL_SERVER_LIST, ret_sp) //special server list
+		ret_gs, _ := proto.Marshal(&pb.GameServerList{Status: 1, GameServerList: map[string]*pb.Server{msg.SHost: {SHost: msg.SHost, SGroup: &msg.SGroup}}})
+		conn.TCPServer.ConnMgr.SyncGameServer(MsgID.GAME_SERVER_LIST, ret_gs)
+	case "room":
+		//sync room server
+		conn.TCPServer.ConnMgr.SyncRoomServer()
+		//sync game server
+		ret_gs, _ := proto.Marshal(&pb.GameServerList{Status: 0, GameServerList: conn.TCPServer.ConnMgr.GetGameServer()})
+		conn.TCPServer.ConnMgr.SyncGameServer(MsgID.GAME_SERVER_LIST, ret_gs)
+	case "rank":
+		//sync rank server
+		conn.TCPServer.ConnMgr.SyncRankServer()
+		//sync game server
+		ret_gs, _ := proto.Marshal(&pb.GameServerList{Status: 0, GameServerList: conn.TCPServer.ConnMgr.GetGameServer()})
+		conn.TCPServer.ConnMgr.SyncGameServer(MsgID.GAME_SERVER_LIST, ret_gs)
+	default:
+		//add gm
+	}
 }
 
 func process_echo(req *Request) {
 	msg := &pb.Echo{}
 	err := proto.Unmarshal(req.GetData(), msg)
 	if err != nil {
-		logger.Fatal("handshake Unmarshal error ", err)
+		logger.Fatal("echo Unmarshal error ", err)
 		return
 	}
 	logger.Info("processing echo")
+	conn := req.conn
+	if conn.GetName() == "game" {
+		conn.Online = *msg.SOnline
+	}
 }
 
 func process_transfer(req *Request) {
 	msg := &pb.BroadCast{}
 	err := proto.Unmarshal(req.GetData(), msg)
 	if err != nil {
-		logger.Fatal("handshake Unmarshal error ", err)
+		logger.Fatal("trans Unmarshal error ", err)
 		return
 	}
-	logger.Info("processing transfer")
+	logger.Infof("processing transfer %d from %s to %s", req.GetMsgID(), req.conn.GetName(), msg.Target)
+	req.conn.TCPServer.ConnMgr.SendToHost(msg.Target, req.GetMsgID(), req.GetData())
 }

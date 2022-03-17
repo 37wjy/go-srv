@@ -21,3 +21,7 @@ TODO 重构与中心服有交互的逻辑
     echo
     error
     server list
+
+TODO 处理消息时的错误处理！！！！！！！！！
+
+    要不server就没了

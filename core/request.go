@@ -13,10 +13,10 @@ func (r *Request) GetData() []byte {
 	return r.msg.GetData()
 }
 
-func (r *Request) GetMsgID() uint32 {
+func (r *Request) GetMsgID() int32 {
 	return r.msg.GetMsgID()
 }
 
-func (r *Request) SetMsgID(id uint32) {
+func (r *Request) SetMsgID(id int32) {
 	r.msg.SetMsgID(id)
 }
