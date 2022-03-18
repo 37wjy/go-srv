@@ -71,17 +71,17 @@ func process_handshake(req *Request) {
 		ret_gs, _ := proto.Marshal(&pb.GameServerList{Status: 1, GameServerList: map[string]*pb.Server{msg.SHost: {SHost: msg.SHost, SGroup: &msg.SGroup}}})
 		conn.TCPServer.ConnMgr.SyncGameServer(MsgID.GAME_SERVER_LIST, ret_gs)
 	case "room":
+		//sync game server
+		ret_gs, _ := proto.Marshal(&pb.GameServerList{Status: 0, GameServerList: conn.TCPServer.ConnMgr.GetGameServer()})
+		conn.TCPServer.ConnMgr.SyncGameServer(MsgID.GAME_SERVER_LIST, ret_gs)
 		//sync room server
 		conn.TCPServer.ConnMgr.SyncRoomServer()
+	case "rank":
 		//sync game server
 		ret_gs, _ := proto.Marshal(&pb.GameServerList{Status: 0, GameServerList: conn.TCPServer.ConnMgr.GetGameServer()})
 		conn.TCPServer.ConnMgr.SyncGameServer(MsgID.GAME_SERVER_LIST, ret_gs)
-	case "rank":
 		//sync rank server
 		conn.TCPServer.ConnMgr.SyncRankServer()
-		//sync game server
-		ret_gs, _ := proto.Marshal(&pb.GameServerList{Status: 0, GameServerList: conn.TCPServer.ConnMgr.GetGameServer()})
-		conn.TCPServer.ConnMgr.SyncGameServer(MsgID.GAME_SERVER_LIST, ret_gs)
 	default:
 		//add gm
 	}
