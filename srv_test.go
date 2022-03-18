@@ -1,7 +1,10 @@
 package main
 
 import (
+	"UnicornServer/core"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"testing"
 )
 
@@ -14,4 +17,18 @@ func TestMap(t *testing.T) {
 	for k, v := range scene {
 		fmt.Println(k, v)
 	}
+}
+
+func TestCfg(t *testing.T) {
+
+	config := &core.ServerCfg{}
+
+	f, _ := ioutil.ReadFile("config/config.json")
+	err := json.Unmarshal(f, config)
+	if err != nil {
+		fmt.Println("unmarshal faild ", err)
+	}
+	fmt.Println(config.Name)
+	fmt.Println(config.Port)
+	fmt.Println(config.IP)
 }

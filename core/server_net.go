@@ -2,10 +2,29 @@ package core
 
 import (
 	"UnicornServer/core/logger"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net"
 	_ "net/http/pprof"
 )
+
+type ServerCfg struct {
+	Name   string
+	IP     string
+	Port   int
+	LogDir string
+}
+
+func getCfg() *ServerCfg {
+	config := &ServerCfg{}
+	f, _ := ioutil.ReadFile("config/config.json")
+	err := json.Unmarshal(f, config)
+	if err != nil {
+		logger.Fatal("unmarshal faild ", err)
+	}
+	return config
+}
 
 type Server struct {
 	Name        string
@@ -19,12 +38,12 @@ type Server struct {
 }
 
 func NewServer() *Server {
-
+	cfg := getCfg()
 	s := &Server{
-		Name:      "UnicornCenter",
+		Name:      cfg.Name,
 		IPVersion: "tcp4",
-		IP:        "0.0.0.0",
-		Port:      9999,
+		IP:        cfg.IP,
+		Port:      cfg.Port,
 		ConnMgr:   NewConnMgr(),
 		Handler:   NewMsgHandle(),
 	}

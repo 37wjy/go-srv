@@ -11,7 +11,7 @@ TODO conn manager
 
 TODO Logger
 
-    file writter
+    file writter/接入open search
 
 TODO config.json
 

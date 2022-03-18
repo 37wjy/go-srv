@@ -1,10 +1,8 @@
 {
-    "Name":"CS",
-    "Host":"0.0.0.0",
-    "TcpPort":9999,
-    "MaxConn":3000,
-    "WorkerPoolSize":10,
-    "LogDir": "./test_log",
-    "LogFile":"test.log"
-  }
+  "Name":"UnicornCenter",
+  "IP":"0.0.0.0",
+  "Port":9999,
+  "LogDir": "./test_log",
+  "LogFile":"test.log"
+}
   
