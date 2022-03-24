@@ -29,6 +29,9 @@ func (mh *MsgHandle) DoMsgHandler(req *Request) {
 	case 10002:
 		process_echo(req)
 		return
+	case 10005:
+		process_gm_get_setver_list(req)
+		return
 	default:
 		process_transfer(req)
 		return
@@ -98,6 +101,19 @@ func process_echo(req *Request) {
 	conn := req.conn
 	if conn.GetName() == "game" {
 		conn.Online = *msg.SOnline
+	}
+}
+
+func process_gm_get_setver_list(req *Request) {
+	logger.Info("processing gm get server list")
+	conn := req.conn
+	if conn.GetName() == "gm" {
+		ret, _ := proto.Marshal(&pb.GMServerList{
+			GameServerList: conn.TCPServer.ConnMgr.GetGameServer(),
+			RoomServerList: conn.TCPServer.ConnMgr.GetRoomServer(),
+			RankServerList: conn.TCPServer.ConnMgr.GetRankServer(),
+		})
+		conn.SendMsg(MsgID.GAME_SERVER_LIST, ret)
 	}
 }
 
