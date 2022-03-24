@@ -57,14 +57,14 @@ func process_handshake(req *Request) {
 	}
 
 	conn := req.conn
-	conn.ConnName = msg.SName
-	conn.ConnHost = msg.SHost
-	conn.ConnGroup = msg.SGroup
-	conn.ConnBranch = msg.CurrBranch
-	logger.Infof("receive connection from %s, %s, group: %d", msg.SName, msg.SHost, msg.SGroup)
+	conn.ConnName = msg.GetSName()
+	conn.ConnHost = msg.GetSHost()
+	conn.ConnGroup = msg.GetSGroup()
+	conn.ConnBranch = msg.GetCurrBranch()
+	logger.Infof("receive connection from %s, %s, group: %d", msg.GetSName(), msg.GetSHost(), msg.GetSGroup())
 	req.conn.TCPServer.ConnMgr.Add(conn)
 
-	switch msg.SName {
+	switch msg.GetSName() {
 	case "game":
 		ret_sp, _ := proto.Marshal(&pb.SpecialServerList{
 			RoomServerList: conn.TCPServer.ConnMgr.GetRoomServer(),
@@ -100,7 +100,7 @@ func process_echo(req *Request) {
 	logger.Info("processing echo")
 	conn := req.conn
 	if conn.GetName() == "game" {
-		conn.Online = *msg.SOnline
+		conn.Online = msg.GetSOnline()
 	}
 }
 
@@ -125,5 +125,5 @@ func process_transfer(req *Request) {
 		return
 	}
 	logger.Infof("processing transfer %d from %s to %s", req.GetMsgID(), req.conn.GetName(), msg.Target)
-	req.conn.TCPServer.ConnMgr.SendToHost(msg.Target, req.GetMsgID(), req.GetData())
+	req.conn.TCPServer.ConnMgr.SendToHost(msg.GetTarget(), req.GetMsgID(), req.GetData())
 }
