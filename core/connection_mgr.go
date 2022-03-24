@@ -130,3 +130,27 @@ func (c *ConnMgr) GetRankServer() map[string]*pb.Server {
 	}
 	return ret
 }
+
+func (c *ConnMgr) GMGetGameServer() map[string]*pb.Server {
+	ret := make(map[string]*pb.Server)
+	for k, conn := range c.games {
+		ret[k] = &pb.Server{SHost: conn.GetHost(), SGroup: &conn.ConnGroup}
+	}
+	return ret
+}
+
+func (c *ConnMgr) GMGetRoomServer() map[string]*pb.Server {
+	ret := make(map[string]*pb.Server)
+	for k, conn := range c.rooms {
+		ret[k] = &pb.Server{SHost: conn.GetHost()}
+	}
+	return ret
+}
+
+func (c *ConnMgr) GMGetRankServer() map[string]*pb.Server {
+	ret := make(map[string]*pb.Server)
+	for k, conn := range c.ranks {
+		ret[k] = &pb.Server{SHost: conn.GetHost()}
+	}
+	return ret
+}

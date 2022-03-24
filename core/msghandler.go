@@ -99,9 +99,11 @@ func process_echo(req *Request) {
 	}
 	logger.Info("processing echo")
 	conn := req.conn
-	if conn.GetName() == "game" {
+	if conn.GetName() == "game" && msg.SOnline != nil {
 		conn.Online = msg.GetSOnline()
 	}
+	ret, _ := proto.Marshal(&pb.Echo{})
+	conn.SendMsg(MsgID.ECHO, ret)
 }
 
 func process_gm_get_setver_list(req *Request) {
