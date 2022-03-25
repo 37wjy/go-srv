@@ -5,6 +5,7 @@ option go_package = './pb';
 // 字段规则：-> 字段可出现 0 次或1次
 // 字段规则：repeated -> 字段可出现任意多次（包括 0）
 // 类型：int32、int64、sint32、sint64、string、32-bit ....
+// proto3没有默认值 require optional
 
 message BroadCast{
     enum OperType{
@@ -15,7 +16,7 @@ message BroadCast{
     };
     OperType opertype = 1;
     string source = 2;
-    string Target = 3;
+    string target = 3;
     bytes data = 4;
 };
 
@@ -31,7 +32,7 @@ message HandShake{
 message Echo{
     string s_host = 1;
     string s_name = 2;
-    int32 s_online = 3;
+    optional int32 s_online = 3;//要不就让他变成指针 要不就赋默认-1
 }
 
 message Server{

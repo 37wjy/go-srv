@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tmsg.proto\x12\x02pb\"\xda\x01\n\tBroadCast\x12-\n\x08opertype\x18\x01 \x01(\x0e\x32\x16.pb.BroadCast.OperTypeH\x00\x88\x01\x01\x12\x13\n\x06source\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x0e\n\x06Target\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x04 \x01(\x0c\"S\n\x08OperType\x12\x0b\n\x07\x44\x45\x46\x41ULT\x10\x00\x12\x12\n\x0e\x42ROADCAST_GAME\x10\x01\x12\x12\n\x0e\x42ROADCAST_ROOM\x10\x02\x12\x12\n\x0e\x42ROADCAST_RANK\x10\x03\x42\x0b\n\t_opertypeB\t\n\x07_source\"Q\n\tHandShake\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x13\n\x0b\x63urr_branch\x18\x03 \x01(\t\x12\x0f\n\x07s_group\x18\x04 \x01(\x05\"J\n\x04\x45\x63ho\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x15\n\x08s_online\x18\x03 \x01(\x05H\x00\x88\x01\x01\x42\x0b\n\t_s_online\"\xa8\x01\n\x06Server\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x13\n\x06s_name\x18\x02 \x01(\tH\x00\x88\x01\x01\x12\x18\n\x0b\x63urr_branch\x18\x03 \x01(\tH\x01\x88\x01\x01\x12\x15\n\x08s_online\x18\x04 \x01(\x05H\x02\x88\x01\x01\x12\x14\n\x07s_group\x18\x05 \x01(\x05H\x03\x88\x01\x01\x42\t\n\x07_s_nameB\x0e\n\x0c_curr_branchB\x0b\n\t_s_onlineB\n\n\x08_s_group\"\xa5\x01\n\x0eGameServerList\x12\x0e\n\x06status\x18\x01 \x01(\x05\x12@\n\x10game_server_list\x18\x02 \x03(\x0b\x32&.pb.GameServerList.GameServerListEntry\x1a\x41\n\x13GameServerListEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x19\n\x05value\x18\x02 \x01(\x0b\x32\n.pb.Server:\x02\x38\x01\"\xa3\x02\n\x11SpecialServerList\x12\x43\n\x10room_server_list\x18\x01 \x03(\x0b\x32).pb.SpecialServerList.RoomServerListEntry\x12\x43\n\x10rank_server_list\x18\x02 \x03(\x0b\x32).pb.SpecialServerList.RankServerListEntry\x1a\x41\n\x13RoomServerListEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x19\n\x05value\x18\x02 \x01(\x0b\x32\n.pb.Server:\x02\x38\x01\x1a\x41\n\x13RankServerListEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x19\n\x05value\x18\x02 \x01(\x0b\x32\n.pb.Server:\x02\x38\x01\"\x97\x03\n\x0cGMServerList\x12>\n\x10game_server_list\x18\x01 \x03(\x0b\x32$.pb.GMServerList.GameServerListEntry\x12>\n\x10room_server_list\x18\x02 \x03(\x0b\x32$.pb.GMServerList.RoomServerListEntry\x12>\n\x10rank_server_list\x18\x03 \x03(\x0b\x32$.pb.GMServerList.RankServerListEntry\x1a\x41\n\x13GameServerListEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x19\n\x05value\x18\x02 \x01(\x0b\x32\n.pb.Server:\x02\x38\x01\x1a\x41\n\x13RoomServerListEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x19\n\x05value\x18\x02 \x01(\x0b\x32\n.pb.Server:\x02\x38\x01\x1a\x41\n\x13RankServerListEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x19\n\x05value\x18\x02 \x01(\x0b\x32\n.pb.Server:\x02\x38\x01\"\x16\n\x05\x45rror\x12\r\n\x05\x65rror\x18\x01 \x01(\tB\x06Z\x04./pbb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tmsg.proto\x12\x02pb\"\xb8\x01\n\tBroadCast\x12(\n\x08opertype\x18\x01 \x01(\x0e\x32\x16.pb.BroadCast.OperType\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\x0e\n\x06target\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x04 \x01(\x0c\"S\n\x08OperType\x12\x0b\n\x07\x44\x45\x46\x41ULT\x10\x00\x12\x12\n\x0e\x42ROADCAST_GAME\x10\x01\x12\x12\n\x0e\x42ROADCAST_ROOM\x10\x02\x12\x12\n\x0e\x42ROADCAST_RANK\x10\x03\"Q\n\tHandShake\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x13\n\x0b\x63urr_branch\x18\x03 \x01(\t\x12\x0f\n\x07s_group\x18\x04 \x01(\x05\"J\n\x04\x45\x63ho\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x15\n\x08s_online\x18\x03 \x01(\x05H\x00\x88\x01\x01\x42\x0b\n\t_s_online\"`\n\x06Server\x12\x0e\n\x06s_host\x18\x01 \x01(\t\x12\x0e\n\x06s_name\x18\x02 \x01(\t\x12\x13\n\x0b\x63urr_branch\x18\x03 \x01(\t\x12\x10\n\x08s_online\x18\x04 \x01(\x05\x12\x0f\n\x07s_group\x18\x05 \x01(\x05\"\xa5\x01\n\x0eGameServerList\x12\x0e\n\x06status\x18\x01 \x01(\x05\x12@\n\x10game_server_list\x18\x02 \x03(\x0b\x32&.pb.GameServerList.GameServerListEntry\x1a\x41\n\x13GameServerListEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x19\n\x05value\x18\x02 \x01(\x0b\x32\n.pb.Server:\x02\x38\x01\"\xa3\x02\n\x11SpecialServerList\x12\x43\n\x10room_server_list\x18\x01 \x03(\x0b\x32).pb.SpecialServerList.RoomServerListEntry\x12\x43\n\x10rank_server_list\x18\x02 \x03(\x0b\x32).pb.SpecialServerList.RankServerListEntry\x1a\x41\n\x13RoomServerListEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x19\n\x05value\x18\x02 \x01(\x0b\x32\n.pb.Server:\x02\x38\x01\x1a\x41\n\x13RankServerListEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x19\n\x05value\x18\x02 \x01(\x0b\x32\n.pb.Server:\x02\x38\x01\"\x97\x03\n\x0cGMServerList\x12>\n\x10game_server_list\x18\x01 \x03(\x0b\x32$.pb.GMServerList.GameServerListEntry\x12>\n\x10room_server_list\x18\x02 \x03(\x0b\x32$.pb.GMServerList.RoomServerListEntry\x12>\n\x10rank_server_list\x18\x03 \x03(\x0b\x32$.pb.GMServerList.RankServerListEntry\x1a\x41\n\x13GameServerListEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x19\n\x05value\x18\x02 \x01(\x0b\x32\n.pb.Server:\x02\x38\x01\x1a\x41\n\x13RoomServerListEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x19\n\x05value\x18\x02 \x01(\x0b\x32\n.pb.Server:\x02\x38\x01\x1a\x41\n\x13RankServerListEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x19\n\x05value\x18\x02 \x01(\x0b\x32\n.pb.Server:\x02\x38\x01\"\x16\n\x05\x45rror\x12\r\n\x05\x65rror\x18\x01 \x01(\tB\x06Z\x04./pbb\x06proto3')
 
 
 
@@ -154,33 +154,33 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _GMSERVERLIST_RANKSERVERLISTENTRY._options = None
   _GMSERVERLIST_RANKSERVERLISTENTRY._serialized_options = b'8\001'
   _BROADCAST._serialized_start=18
-  _BROADCAST._serialized_end=236
-  _BROADCAST_OPERTYPE._serialized_start=129
-  _BROADCAST_OPERTYPE._serialized_end=212
-  _HANDSHAKE._serialized_start=238
-  _HANDSHAKE._serialized_end=319
-  _ECHO._serialized_start=321
-  _ECHO._serialized_end=395
-  _SERVER._serialized_start=398
-  _SERVER._serialized_end=566
-  _GAMESERVERLIST._serialized_start=569
-  _GAMESERVERLIST._serialized_end=734
-  _GAMESERVERLIST_GAMESERVERLISTENTRY._serialized_start=669
-  _GAMESERVERLIST_GAMESERVERLISTENTRY._serialized_end=734
-  _SPECIALSERVERLIST._serialized_start=737
-  _SPECIALSERVERLIST._serialized_end=1028
-  _SPECIALSERVERLIST_ROOMSERVERLISTENTRY._serialized_start=896
-  _SPECIALSERVERLIST_ROOMSERVERLISTENTRY._serialized_end=961
-  _SPECIALSERVERLIST_RANKSERVERLISTENTRY._serialized_start=963
-  _SPECIALSERVERLIST_RANKSERVERLISTENTRY._serialized_end=1028
-  _GMSERVERLIST._serialized_start=1031
-  _GMSERVERLIST._serialized_end=1438
-  _GMSERVERLIST_GAMESERVERLISTENTRY._serialized_start=669
-  _GMSERVERLIST_GAMESERVERLISTENTRY._serialized_end=734
-  _GMSERVERLIST_ROOMSERVERLISTENTRY._serialized_start=896
-  _GMSERVERLIST_ROOMSERVERLISTENTRY._serialized_end=961
-  _GMSERVERLIST_RANKSERVERLISTENTRY._serialized_start=963
-  _GMSERVERLIST_RANKSERVERLISTENTRY._serialized_end=1028
-  _ERROR._serialized_start=1440
-  _ERROR._serialized_end=1462
+  _BROADCAST._serialized_end=202
+  _BROADCAST_OPERTYPE._serialized_start=119
+  _BROADCAST_OPERTYPE._serialized_end=202
+  _HANDSHAKE._serialized_start=204
+  _HANDSHAKE._serialized_end=285
+  _ECHO._serialized_start=287
+  _ECHO._serialized_end=361
+  _SERVER._serialized_start=363
+  _SERVER._serialized_end=459
+  _GAMESERVERLIST._serialized_start=462
+  _GAMESERVERLIST._serialized_end=627
+  _GAMESERVERLIST_GAMESERVERLISTENTRY._serialized_start=562
+  _GAMESERVERLIST_GAMESERVERLISTENTRY._serialized_end=627
+  _SPECIALSERVERLIST._serialized_start=630
+  _SPECIALSERVERLIST._serialized_end=921
+  _SPECIALSERVERLIST_ROOMSERVERLISTENTRY._serialized_start=789
+  _SPECIALSERVERLIST_ROOMSERVERLISTENTRY._serialized_end=854
+  _SPECIALSERVERLIST_RANKSERVERLISTENTRY._serialized_start=856
+  _SPECIALSERVERLIST_RANKSERVERLISTENTRY._serialized_end=921
+  _GMSERVERLIST._serialized_start=924
+  _GMSERVERLIST._serialized_end=1331
+  _GMSERVERLIST_GAMESERVERLISTENTRY._serialized_start=562
+  _GMSERVERLIST_GAMESERVERLISTENTRY._serialized_end=627
+  _GMSERVERLIST_ROOMSERVERLISTENTRY._serialized_start=789
+  _GMSERVERLIST_ROOMSERVERLISTENTRY._serialized_end=854
+  _GMSERVERLIST_RANKSERVERLISTENTRY._serialized_start=856
+  _GMSERVERLIST_RANKSERVERLISTENTRY._serialized_end=921
+  _ERROR._serialized_start=1333
+  _ERROR._serialized_end=1355
 # @@protoc_insertion_point(module_scope)

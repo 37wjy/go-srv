@@ -63,31 +63,6 @@ func process_handshake(req *Request) {
 	conn.ConnBranch = msg.GetCurrBranch()
 	logger.Infof("receive connection from %s, %s, group: %d", msg.GetSName(), msg.GetSHost(), msg.GetSGroup())
 	req.conn.TCPServer.ConnMgr.Add(conn)
-
-	switch msg.GetSName() {
-	case "game":
-		ret_sp, _ := proto.Marshal(&pb.SpecialServerList{
-			RoomServerList: conn.TCPServer.ConnMgr.GetRoomServer(),
-			RankServerList: conn.TCPServer.ConnMgr.GetRankServer(),
-		})
-		conn.SendMsg(MsgID.SPECIAL_SERVER_LIST, ret_sp) //special server list
-		ret_gs, _ := proto.Marshal(&pb.GameServerList{Status: 1, GameServerList: map[string]*pb.Server{msg.SHost: {SHost: msg.SHost, SGroup: &msg.SGroup}}})
-		conn.TCPServer.ConnMgr.SyncGameServer(MsgID.GAME_SERVER_LIST, ret_gs)
-	case "room":
-		//sync game server
-		ret_gs, _ := proto.Marshal(&pb.GameServerList{Status: 0, GameServerList: conn.TCPServer.ConnMgr.GetGameServer()})
-		conn.TCPServer.ConnMgr.SyncGameServer(MsgID.GAME_SERVER_LIST, ret_gs)
-		//sync room server
-		conn.TCPServer.ConnMgr.SyncRoomServer()
-	case "rank":
-		//sync game server
-		ret_gs, _ := proto.Marshal(&pb.GameServerList{Status: 0, GameServerList: conn.TCPServer.ConnMgr.GetGameServer()})
-		conn.TCPServer.ConnMgr.SyncGameServer(MsgID.GAME_SERVER_LIST, ret_gs)
-		//sync rank server
-		conn.TCPServer.ConnMgr.SyncRankServer()
-	default:
-		//add gm
-	}
 }
 
 func process_echo(req *Request) {
@@ -111,9 +86,9 @@ func process_gm_get_setver_list(req *Request) {
 	conn := req.conn
 	if conn.GetName() == "gm" {
 		ret, _ := proto.Marshal(&pb.GMServerList{
-			GameServerList: conn.TCPServer.ConnMgr.GetGameServer(),
-			RoomServerList: conn.TCPServer.ConnMgr.GetRoomServer(),
-			RankServerList: conn.TCPServer.ConnMgr.GetRankServer(),
+			GameServerList: conn.TCPServer.ConnMgr.GMGetGameServer(),
+			RoomServerList: conn.TCPServer.ConnMgr.GMGetRoomServer(),
+			RankServerList: conn.TCPServer.ConnMgr.GMGetRankServer(),
 		})
 		conn.SendMsg(MsgID.GAME_SERVER_LIST, ret)
 	}
@@ -126,6 +101,14 @@ func process_transfer(req *Request) {
 		logger.Fatal("trans Unmarshal error ", err)
 		return
 	}
-	logger.Infof("processing transfer %d from %s to %s", req.GetMsgID(), req.conn.GetName(), msg.Target)
+	//现役GM用
+	if req.GetMsgID() >= MsgID.GM_ID_START && req.GetMsgID() < MsgID.RK_ID_START {
+		if req.conn.GetName() != "gm" {
+			logger.Infof("processing transfer %d from %s to GM", req.GetMsgID(), req.conn.GetName())
+			req.conn.TCPServer.ConnMgr.SendToAllOthers(req.GetMsgID(), req.GetData())
+			return
+		}
+	}
+	logger.Infof("processing transfer %d from %s to %s", req.GetMsgID(), req.conn.GetName(), msg.GetTarget())
 	req.conn.TCPServer.ConnMgr.SendToHost(msg.GetTarget(), req.GetMsgID(), req.GetData())
 }

@@ -1,27 +1,14 @@
 # go-srv
 
+练手用的，bug随缘了
+
 简易版goserver 目前所有handler都写在msghandler下 若要拆分则需将其他文件的interface写到inet中
 
-TODO conn manager 
-
-    1.on conn start
-    2.on conn stop
-    3.echo
-    4.transfer/broadcast
+消息转发由proto定义 目前source字段有服务器附带发送，可以考虑由本服发送 但会导致
 
 TODO Logger
 
     file writter/接入open search
 
 TODO config.json
-
-TODO 重构与中心服有交互的逻辑
-
-    handshake
-    echo
-    error
-    server list
-
-TODO 处理消息时的错误处理！！！！！！！！！
-
-    要不server就没了
+    docker 替换json

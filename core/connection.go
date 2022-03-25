@@ -119,7 +119,6 @@ func (c *Connection) Finalizer() {
 
 	c.TCPServer.ConnMgr.Remove(c)
 	_ = c.Conn.Close()
-
 	c.isClosed = true
 }
 
