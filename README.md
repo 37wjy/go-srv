@@ -4,7 +4,7 @@
 
 简易版goserver 目前所有handler都写在msghandler下 若要拆分则需将其他文件的interface写到inet中
 
-消息转发由proto定义 目前source字段有服务器附带发送，可以考虑由本服发送 但会导致
+消息转发由proto定义 目前source字段有服务器附带发送，可以考虑由本服发送 但会导致重新编码
 
 TODO Logger
 
