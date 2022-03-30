@@ -1,14 +1,11 @@
 package main
 
 import (
-	_ "net/http/pprof"
-
 	"UnicornServer/core"
+	_ "net/http/pprof"
 )
 
 func main() {
-
 	s := core.NewServer()
-
 	s.Start()
 }

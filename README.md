@@ -12,3 +12,8 @@ TODO Logger
 
 TODO config.json
     docker 替换json
+
+
+### 加入docker支持
+- 构建 sh bin/build_docker.sh
+- 运行 sh run_in_docker.sh port (port 默认为9999)

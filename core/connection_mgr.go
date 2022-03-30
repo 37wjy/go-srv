@@ -53,6 +53,7 @@ func (c *ConnMgr) Add(conn *Connection) {
 		//sync rank server
 		conn.TCPServer.ConnMgr.SyncRankServer()
 	default:
+		// gm 全扔这里 支持多个
 		c.other[conn.GetHost()] = conn
 	}
 	c.hosts[conn.GetHost()] = conn
