@@ -109,6 +109,20 @@ func process_transfer(req *Request) {
 			return
 		}
 	}
-	logger.Infof("processing transfer %d from %s to %s", req.GetMsgID(), req.conn.GetName(), msg.GetTarget())
-	req.conn.TCPServer.ConnMgr.SendToHost(msg.GetTarget(), req.GetMsgID(), req.GetData())
+	//转发
+	switch msg.GetOpertype() {
+	case pb.BroadCast_BROADCAST_GAME:
+		logger.Infof("processing broadcast %d from %s to game", req.GetMsgID(), req.conn.GetName())
+		req.conn.TCPServer.ConnMgr.SendToAllGame(req.GetMsgID(), req.GetData())
+	case pb.BroadCast_BROADCAST_ROOM:
+		logger.Infof("processing broadcast %d from %s to room", req.GetMsgID(), req.conn.GetName())
+		req.conn.TCPServer.ConnMgr.SendToAllRoom(req.GetMsgID(), req.GetData())
+	case pb.BroadCast_BROADCAST_RANK:
+		logger.Infof("processing broadcast %d from %s to rank", req.GetMsgID(), req.conn.GetName())
+		req.conn.TCPServer.ConnMgr.SendToAllRank(req.GetMsgID(), req.GetData())
+	default:
+		logger.Infof("processing transfer %d from %s to %s", req.GetMsgID(), req.conn.GetName(), msg.GetTarget())
+		req.conn.TCPServer.ConnMgr.SendToHost(msg.GetTarget(), req.GetMsgID(), req.GetData())
+	}
+
 }
