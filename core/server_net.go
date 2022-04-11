@@ -18,8 +18,15 @@ type ServerCfg struct {
 
 func getCfg() *ServerCfg {
 	config := &ServerCfg{}
-	f, _ := ioutil.ReadFile("config/config.json")
-	err := json.Unmarshal(f, config)
+	f, err := ioutil.ReadFile("config/config.json")
+	if err != nil {
+		logger.Info("use default config")
+		return &ServerCfg{
+			Name: "UnicornCenter",
+			IP:   "0.0.0.0",
+			Port: 9998}
+	}
+	err = json.Unmarshal(f, config)
 	if err != nil {
 		logger.Fatal("unmarshal faild ", err)
 	}

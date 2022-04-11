@@ -97,6 +97,16 @@ func (c *Connection) StartWriter() {
 }
 
 func (c *Connection) Start() {
+	defer func() {
+		err := recover()
+		switch err.(type) {
+		case nil:
+		default:
+			logger.Fatal("connection stop by error ", err)
+			c.Finalizer()
+		}
+	}()
+
 	c.ctx, c.cancel = context.WithCancel(context.Background())
 	go c.StartWriter()
 	go c.StartReader()
@@ -141,7 +151,7 @@ func (c *Connection) GetName() string {
 func (c *Connection) SendMsg(msgID int32, data []byte) error {
 	c.RLock()
 	defer c.RUnlock()
-	if c.isClosed == true {
+	if c.isClosed {
 		return errors.New("connection closed when send msg")
 	}
 
