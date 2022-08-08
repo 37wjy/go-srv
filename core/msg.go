@@ -1,16 +1,16 @@
 package core
 
 type Message struct {
-	ID      int32
 	DataLen uint32 //消息的长度
+	ID      int32
 	Data    []byte //消息的内容
 }
 
 //NewMsgPackage 创建一个Message消息包
 func NewMsgPackage(ID int32, data []byte) *Message {
 	return &Message{
-		ID:      ID,
 		DataLen: uint32(len(data)),
+		ID:      ID,
 		Data:    data,
 	}
 }
