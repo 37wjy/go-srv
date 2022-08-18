@@ -1,7 +1,8 @@
-package main
+package test
 
 import (
 	"UnicornServer/core"
+	"UnicornServer/core/pb"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -9,9 +10,11 @@ import (
 	"runtime"
 	"testing"
 	"time"
+
+	"google.golang.org/protobuf/proto"
 )
 
-func TestMap(t *testing.T) {
+func TestStruct(t *testing.T) {
 	scene := make(map[string]int)
 	// 准备map数据
 	scene["route"] = 66
@@ -20,12 +23,15 @@ func TestMap(t *testing.T) {
 	for k, v := range scene {
 		fmt.Println(k, v)
 	}
+	fmt.Printf("%+v\n", scene)
+	tlist := []int{1, 2, 3}
+	tlist1 := append(tlist, 1)
+	fmt.Printf("%+v\n", tlist1)
+	fmt.Printf("%+v\n", tlist)
 }
 
 func TestCfg(t *testing.T) {
-
 	config := &core.ServerCfg{}
-
 	f, _ := ioutil.ReadFile("config/config.json")
 	err := json.Unmarshal(f, config)
 	if err != nil {
@@ -63,7 +69,25 @@ func TestAA(t *testing.T) {
 	print(2)
 }
 
-func TestPR(t *testing.T) {
+func TestPBTest(t *testing.T) {
+	ilist := []int32{1, 2, 3}
+
+	smap := map[string]string{
+		"adsad": "dihudshbdio",
+		"dsads": "dedsad",
+	}
+
+	ilist = append(ilist, 4)
+	smap["rewfd"] = "dfvfd"
+	ds := pb.Test{
+		Ilist:  ilist,
+		Strmap: smap,
+	}
+	ret, _ := proto.Marshal(&ds)
+	fmt.Printf("%+v\n", ret)
+}
+
+func TestCTX(t *testing.T) {
 	ctx, _ := context.WithTimeout(context.TODO(), time.Second*2)
 	go func() {
 		defer func() {
